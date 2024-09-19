@@ -46,3 +46,5 @@ packages/
 /.vs/VendaHubAPI/v17/DocumentLayout.json
 /.vs/slnx.sqlite
 /.vs
+/src/.vs
+/src/Domain/obj
