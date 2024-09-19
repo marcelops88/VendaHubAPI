@@ -50,3 +50,4 @@ packages/
 /src/Domain/obj
 /src/Application/obj
 /src/API/obj
+/src/Data/obj
