@@ -21,11 +21,10 @@
 
 ## Tecnologias Utilizadas
 
-- .NET 6
+- .NET 8
 - ASP.NET Core
 - Entity Framework Core
 - Serilog para logging
-- FluentValidation para validação
 - XUnit, FluentAssertions, Bogus e NSubstitute para testes
 - TestContainer para testes de integração
 
