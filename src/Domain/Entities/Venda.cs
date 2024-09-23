@@ -23,7 +23,17 @@
             TelefoneCliente = telefoneCliente;
             EmailCliente = emailCliente;    
         }
-
+        public void AtualizarVenda(int numeroVenda, string nomeCliente, string filial, List<ItemVenda> itens, string cpfCliente, string telefoneCliente, string emailCliente)
+        {
+            NumeroVenda = numeroVenda;
+            NomeCliente = nomeCliente;
+            Filial = filial;
+            Itens = itens ?? new List<ItemVenda>();
+            CpfCliente = cpfCliente;
+            TelefoneCliente = telefoneCliente;
+            EmailCliente = emailCliente;
+            DataAtualizacao = DateTime.UtcNow;
+        }
 
         public decimal ValorTotal()
         {

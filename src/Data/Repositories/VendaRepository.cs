@@ -38,7 +38,6 @@ namespace Data.Repositories
 
         public async Task DeleteAsync(Venda venda)
         {
-            venda.Cancelar();
             _context.Vendas.Update(venda);
             await _context.SaveChangesAsync();
         }
