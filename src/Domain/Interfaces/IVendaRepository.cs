@@ -6,8 +6,8 @@ namespace Domain.Interfaces
     {
         Task<IEnumerable<Venda>> GetAllAsync();
         Task<Venda> GetByIdAsync(Guid id);
-        Task AddAsync(Venda venda);
-        Task UpdateAsync(Venda venda);
+        Task<Venda> AddAsync(Venda venda);
+        Task<Venda> UpdateAsync(Venda venda);
         Task DeleteAsync(Venda venda);
     }
 }
