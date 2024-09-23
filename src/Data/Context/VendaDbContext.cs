@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Domain.Entities;
+using Domain.Interfaces;
 
 namespace Data.Context
 {
-    public class VendaDbContext : DbContext
+    public class VendaDbContext : DbContext, IVendaDbContext
     {
         public VendaDbContext(DbContextOptions<VendaDbContext> options) : base(options)
         {

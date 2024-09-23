@@ -1,3 +1,7 @@
+using Data.Context;
+using Data.Repositories;
+using Domain.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Interfaces;
 using Microsoft.OpenApi.Models;
@@ -18,8 +22,7 @@ namespace API
             ConfigureSwagger(builder);
             ConfigureLogging();
             ConfigureServices(builder);
-
-            var app = builder.Build();
+            AddServices(builder);
 
             builder.Services.AddCors(options =>
             {
@@ -29,9 +32,20 @@ namespace API
                                      .AllowAnyHeader());
             });
 
+            var app = builder.Build();
+
             ConfigureMiddleware(app);
 
             app.Run();
+        }
+
+        private static void AddServices(WebApplicationBuilder builder)
+        {
+            builder.Services.AddDbContext<VendaDbContext>(options =>
+                options.UseNpgsql(builder.Configuration.GetConnectionString("PostgresConnection")));
+            builder.Services.AddScoped<IVendaDbContext>(provider => provider.GetService<VendaDbContext>());
+
+            builder.Services.AddScoped<IVendaRepository, VendaRepository>();
         }
 
         private static IConfiguration BuildConfiguration()
