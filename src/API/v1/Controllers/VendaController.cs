@@ -5,84 +5,71 @@ using Domain.Entities;
 using Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.v1.Controllers
+[ApiController]
+[ApiV1Route("[controller]")]
+[Produces("application/json")]
+public class VendaController : ControllerBase
 {
-    [ApiController]
-    [ApiV1Route("[controller]")]
-    [Produces("application/json")]
-    public class VendaController : ControllerBase
+    private readonly IVendaService _vendaService;
+    private readonly IMapper _mapper;
+    public VendaController(IVendaService vendaService, IMapper mapper)
     {
-        private readonly IVendaRepository _vendaRepository;
-        private readonly IMapper _mapper;
+        _vendaService = vendaService;
+        _mapper = mapper;
+    }
 
-        public VendaController(IVendaRepository vendaRepository)
+    [HttpGet]
+    public async Task<IActionResult> GetAll()
+    {
+        var vendas = await _vendaService.GetAllAsync();
+        return Ok(vendas);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetById(Guid id)
+    {
+        var venda = await _vendaService.GetByIdAsync(id);
+        if (venda == null)
         {
-            _vendaRepository = vendaRepository;
+            return NotFound();
         }
+        return Ok(venda);
+    }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
-        {
-            var vendas = await _vendaRepository.GetAllAsync();
-            return Ok(vendas);
-        }
+    [HttpPost]
+    public async Task<IActionResult> Create([FromBody] VendaRequest request)
+    {
+        var input = _mapper.Map<Venda>(request);
+        var vendaCriada = await _vendaService.CreateVendaAsync(input);
+        return CreatedAtAction(nameof(GetById), new { id = vendaCriada.Id }, vendaCriada);
+    }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(Guid id)
-        {
-            var venda = await _vendaRepository.GetByIdAsync(id);
-            if (venda == null)
-            {
-                return NotFound();
-            }
-            return Ok(venda);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Create([FromBody] VendaRequest request)
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Update(Guid id, [FromBody] VendaRequest request)
+    {
+        try
         {
             var input = _mapper.Map<Venda>(request);
-            var venda = await _vendaRepository.AddAsync(input);
-            return CreatedAtAction(nameof(GetById), new { id = venda.Id }, venda);
+            var vendaAtualizada = await _vendaService.UpdateVendaAsync(id, input);
+            return Ok(vendaAtualizada);
         }
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Update(Guid id, [FromBody] VendaRequest request)
+        catch (KeyNotFoundException)
         {
-            var venda = await _vendaRepository.GetByIdAsync(id);
-            if (venda == null)
-            {
-                return NotFound();
-            }
-            var input = _mapper.Map<Venda>(request);
-
-            venda.AtualizarVenda(
-                   input.NumeroVenda,
-                   input.NomeCliente,
-                   input.Filial,
-                   input.Itens,
-                   input.CpfCliente,
-                   input.TelefoneCliente,
-                   input.EmailCliente
-               );
-
-            await _vendaRepository.UpdateAsync(venda);
-
-            return NoContent();
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(Guid id)
-        {
-            var venda = await _vendaRepository.GetByIdAsync(id);
-            if (venda == null)
-            {
-                return NotFound();
-            }
-
-            await _vendaRepository.DeleteAsync(venda);
-            return NoContent();
+            return NotFound();
         }
     }
 
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        try
+        {
+            await _vendaService.DeleteVendaAsync(id);
+            return NoContent();
+        }
+        catch (KeyNotFoundException)
+        {
+            return NotFound();
+        }
+    }
 }

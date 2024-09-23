@@ -7,6 +7,8 @@ namespace Domain.Interfaces
         Task<Venda> CreateVendaAsync(Venda venda);
         Task<Venda> UpdateVendaAsync(Guid id, Venda venda);
         Task DeleteVendaAsync(Guid id);
+        Task<List<Venda>> GetAllAsync();
+        Task<Venda> GetByIdAsync(Guid id);
         decimal CalcularValorTotal(Venda venda);
         void CancelarItemVenda(ItemVenda item);
     }
