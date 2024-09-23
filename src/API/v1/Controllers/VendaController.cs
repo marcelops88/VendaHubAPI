@@ -1,4 +1,6 @@
 ﻿using API.Configurations.Attributes;
+using API.DTOs.Requests;
+using AutoMapper;
 using Domain.Entities;
 using Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +13,7 @@ namespace API.v1.Controllers
     public class VendaController : ControllerBase
     {
         private readonly IVendaRepository _vendaRepository;
+        private readonly IMapper _mapper;
 
         public VendaController(IVendaRepository vendaRepository)
         {
@@ -36,29 +39,31 @@ namespace API.v1.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] Venda venda)
+        public async Task<IActionResult> Create([FromBody] VendaRequest request)
         {
-            await _vendaRepository.AddAsync(venda);
+            var input = _mapper.Map<Venda>(request);
+            var venda = await _vendaRepository.AddAsync(input);
             return CreatedAtAction(nameof(GetById), new { id = venda.Id }, venda);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(Guid id, [FromBody] Venda vendaAtualizada)
+        public async Task<IActionResult> Update(Guid id, [FromBody] VendaRequest request)
         {
             var venda = await _vendaRepository.GetByIdAsync(id);
             if (venda == null)
             {
                 return NotFound();
             }
+            var input = _mapper.Map<Venda>(request);
 
             venda.AtualizarVenda(
-                   vendaAtualizada.NumeroVenda,
-                   vendaAtualizada.NomeCliente,
-                   vendaAtualizada.Filial,
-                   vendaAtualizada.Itens,
-                   vendaAtualizada.CpfCliente,
-                   vendaAtualizada.TelefoneCliente,
-                   vendaAtualizada.EmailCliente
+                   input.NumeroVenda,
+                   input.NomeCliente,
+                   input.Filial,
+                   input.Itens,
+                   input.CpfCliente,
+                   input.TelefoneCliente,
+                   input.EmailCliente
                );
 
             await _vendaRepository.UpdateAsync(venda);

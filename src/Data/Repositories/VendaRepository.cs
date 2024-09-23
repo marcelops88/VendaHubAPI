@@ -24,16 +24,18 @@ namespace Data.Repositories
             return await _context.Vendas.Include(v => v.Itens).FirstOrDefaultAsync(v => v.Id == id);
         }
 
-        public async Task AddAsync(Venda venda)
+        public async Task<Venda> AddAsync(Venda venda)
         {
             await _context.Vendas.AddAsync(venda);
             await _context.SaveChangesAsync();
+            return venda;
         }
 
-        public async Task UpdateAsync(Venda venda)
+        public async Task<Venda> UpdateAsync(Venda venda)
         {
             _context.Vendas.Update(venda);
             await _context.SaveChangesAsync();
+            return venda;
         }
 
         public async Task DeleteAsync(Venda venda)
