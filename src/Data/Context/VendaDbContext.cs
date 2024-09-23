@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Domain.Entities;
 
-namespace Infrastructure.Data
+namespace Data.Context
 {
     public class VendaDbContext : DbContext
     {
