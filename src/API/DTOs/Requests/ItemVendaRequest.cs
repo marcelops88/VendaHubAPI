@@ -7,6 +7,6 @@
         public int Quantidade { get; set; }
         public decimal ValorUnitario { get; set; }
         public decimal Desconto { get; set; }
-        public bool Cancelado { get; set; } 
+        public bool Cancelado { get; set; }
     }
 }

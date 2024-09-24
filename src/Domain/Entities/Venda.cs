@@ -44,7 +44,7 @@
 
             foreach (var item in Itens)
             {
-                if (!item.Cancelado) 
+                if (!item.Cancelado)
                 {
                     valorTotal += (item.Quantidade * item.ValorUnitario) - item.Desconto;
                 }
