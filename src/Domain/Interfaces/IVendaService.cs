@@ -5,10 +5,10 @@ namespace Domain.Interfaces
     public interface IVendaService
     {
         Task<Venda> CreateVendaAsync(Venda venda);
-        Task<Venda> UpdateVendaAsync(Guid id, Venda venda);
-        Task DeleteVendaAsync(Guid id);
-        Task<List<Venda>> GetAllAsync();
-        Task<Venda> GetByIdAsync(Guid id);
+        Task<Venda> UpdateVendaAsync(int numeroVenda, Venda venda);
+        Task DeleteVendaAsync(int numeroVenda);
+        Task<IEnumerable<Venda>> GetAllAsync();
+        Task<Venda> GetByNumeroCompraAsync(int numeroVenda);
         decimal CalcularValorTotal(Venda venda);
         void CancelarItemVenda(ItemVenda item);
     }

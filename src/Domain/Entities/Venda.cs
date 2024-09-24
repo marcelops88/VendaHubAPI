@@ -9,6 +9,7 @@
         public string TelefoneCliente { get; private set; }
         public string EmailCliente { get; private set; }
         public string Filial { get; private set; }
+        public bool Cancelado { get; private set; }
         public List<ItemVenda> Itens { get; private set; }
 
         public Venda(int numeroVenda, string nomeCliente, string filial, List<ItemVenda> itens, string cpfCliente, string telefoneCliente, string emailCliente)
@@ -21,9 +22,10 @@
             Ativo = true;
             CpfCliente = cpfCliente;
             TelefoneCliente = telefoneCliente;
-            EmailCliente = emailCliente;    
+            EmailCliente = emailCliente;  
+            Cancelado = false;
         }
-        public void AtualizarVenda(int numeroVenda, string nomeCliente, string filial, List<ItemVenda> itens, string cpfCliente, string telefoneCliente, string emailCliente)
+        public void AtualizarVenda(int numeroVenda, string nomeCliente, string filial, List<ItemVenda> itens, string cpfCliente, string telefoneCliente, string emailCliente, bool cancelado)
         {
             NumeroVenda = numeroVenda;
             NomeCliente = nomeCliente;
@@ -32,6 +34,7 @@
             CpfCliente = cpfCliente;
             TelefoneCliente = telefoneCliente;
             EmailCliente = emailCliente;
+            Cancelado = cancelado;
             DataAtualizacao = DateTime.UtcNow;
         }
 

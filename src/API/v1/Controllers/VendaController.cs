@@ -26,9 +26,9 @@ public class VendaController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetById(Guid id)
+    public async Task<IActionResult> GetById(int numeroVenda)
     {
-        var venda = await _vendaService.GetByIdAsync(id);
+        var venda = await _vendaService.GetByNumeroCompraAsync(numeroVenda);
         if (venda == null)
         {
             return NotFound();
@@ -41,16 +41,16 @@ public class VendaController : ControllerBase
     {
         var input = _mapper.Map<Venda>(request);
         var vendaCriada = await _vendaService.CreateVendaAsync(input);
-        return CreatedAtAction(nameof(GetById), new { id = vendaCriada.Id }, vendaCriada);
+        return CreatedAtAction(nameof(GetById), new { numeroVenda = vendaCriada.NumeroVenda }, vendaCriada);
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update(Guid id, [FromBody] VendaRequest request)
+    public async Task<IActionResult> Update(int numeroVenda, [FromBody] VendaRequest request)
     {
         try
         {
             var input = _mapper.Map<Venda>(request);
-            var vendaAtualizada = await _vendaService.UpdateVendaAsync(id, input);
+            var vendaAtualizada = await _vendaService.UpdateVendaAsync(numeroVenda, input);
             return Ok(vendaAtualizada);
         }
         catch (KeyNotFoundException)
@@ -60,11 +60,11 @@ public class VendaController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(Guid id)
+    public async Task<IActionResult> Delete(int numeroVenda)
     {
         try
         {
-            await _vendaService.DeleteVendaAsync(id);
+            await _vendaService.DeleteVendaAsync(numeroVenda);
             return NoContent();
         }
         catch (KeyNotFoundException)
