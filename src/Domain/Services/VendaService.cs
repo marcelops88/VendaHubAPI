@@ -23,7 +23,7 @@ namespace Domain.Services
             var vendaEncontrada = await GetByNumeroCompraAsync(venda.NumeroVenda);
             if (vendaEncontrada != null)
             {
-                throw new InvalidOperationException("Já existe uma venda criada!");
+                throw new InvalidOperationException("Já existe uma venda criada com esse numero!");
             }
 
             var vendaCriada = await _vendaRepository.AddAsync(venda);
