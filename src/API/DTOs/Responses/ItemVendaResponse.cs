@@ -1,12 +1,11 @@
-﻿namespace API.DTOs.Requests
+﻿namespace API.DTOs.Responses
 {
-    public class ItemVendaRequest
+    public class ItemVendaResponse
     {
-        public int ProdutoId { get; set; }
         public string NomeProduto { get; set; }
         public int Quantidade { get; set; }
         public decimal ValorUnitario { get; set; }
         public decimal Desconto { get; set; }
-        public bool Cancelado { get; set; }
+        public decimal ValorTotalItem => (ValorUnitario * Quantidade) - Desconto;
     }
 }

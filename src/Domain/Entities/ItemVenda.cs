@@ -1,15 +1,16 @@
-﻿namespace Domain.Entities
+﻿
+namespace Domain.Entities
 {
     public class ItemVenda : EntityBase
     {
-        public Guid ProdutoId { get; private set; }
+        public int ProdutoId { get; private set; }
         public string NomeProduto { get; private set; }
         public int Quantidade { get; private set; }
         public decimal ValorUnitario { get; private set; }
         public decimal Desconto { get; private set; }
         public bool Cancelado { get; private set; }
 
-        public ItemVenda(Guid produtoId,string nomeProduto, int quantidade, decimal valorUnitario, decimal desconto, bool cancelado)
+        public ItemVenda(int produtoId, string nomeProduto, int quantidade, decimal valorUnitario, decimal desconto, bool cancelado)
         {
             ProdutoId = produtoId;
             NomeProduto = nomeProduto;
@@ -21,10 +22,8 @@
 
         public void Cancelar()
         {
-            Cancelado = false;
+            Cancelado = true;
         }
-
-        public decimal ValorTotal => (ValorUnitario * Quantidade) - Desconto;
     }
 
 }

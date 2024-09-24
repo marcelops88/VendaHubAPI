@@ -1,88 +1,90 @@
 ﻿using API.Configurations.Attributes;
 using API.DTOs.Requests;
+using API.DTOs.Responses;
 using AutoMapper;
 using Domain.Entities;
 using Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.v1.Controllers
+[ApiController]
+[ApiV1Route("[controller]")]
+[Produces("application/json")]
+public class VendaController : ControllerBase
 {
-    [ApiController]
-    [ApiV1Route("[controller]")]
-    [Produces("application/json")]
-    public class VendaController : ControllerBase
+    private readonly IVendaService _vendaService;
+    private readonly IMapper _mapper;
+
+    public VendaController(IVendaService vendaService, IMapper mapper)
     {
-        private readonly IVendaRepository _vendaRepository;
-        private readonly IMapper _mapper;
+        _vendaService = vendaService;
+        _mapper = mapper;
+    }
 
-        public VendaController(IVendaRepository vendaRepository)
+    [HttpGet]
+    [ProducesResponseType(typeof(IEnumerable<VendaResponse>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetAll()
+    {
+        var vendas = await _vendaService.GetAllAsync();
+        var vendasResponse = _mapper.Map<IEnumerable<VendaResponse>>(vendas);
+        return Ok(vendasResponse);
+    }
+
+    [HttpGet("{numeroVenda}")]
+    [ProducesResponseType(typeof(VendaResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetById(int numeroVenda)
+    {
+        var venda = await _vendaService.GetByNumeroCompraAsync(numeroVenda);
+        if (venda == null)
         {
-            _vendaRepository = vendaRepository;
+            return NotFound();
         }
+        var vendaResponse = _mapper.Map<VendaResponse>(venda);
+        return Ok(vendaResponse);
+    }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
-        {
-            var vendas = await _vendaRepository.GetAllAsync();
-            return Ok(vendas);
-        }
+    [HttpPost]
+    [ProducesResponseType(typeof(VendaResponse), StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> Create([FromBody] VendaRequest request)
+    {
+        var input = _mapper.Map<Venda>(request);
+        var vendaCriada = await _vendaService.CreateVendaAsync(input);
+        var vendaResponse = _mapper.Map<VendaResponse>(vendaCriada);
+        return CreatedAtAction(nameof(GetById), new { numeroVenda = vendaCriada.NumeroVenda }, vendaResponse);
+    }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(Guid id)
-        {
-            var venda = await _vendaRepository.GetByIdAsync(id);
-            if (venda == null)
-            {
-                return NotFound();
-            }
-            return Ok(venda);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Create([FromBody] VendaRequest request)
+    [HttpPut("{numeroVenda}")]
+    [ProducesResponseType(typeof(VendaResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Update(int numeroVenda, [FromBody] VendaRequest request)
+    {
+        try
         {
             var input = _mapper.Map<Venda>(request);
-            var venda = await _vendaRepository.AddAsync(input);
-            return CreatedAtAction(nameof(GetById), new { id = venda.Id }, venda);
+            var vendaAtualizada = await _vendaService.UpdateVendaAsync(numeroVenda, input);
+            var vendaResponse = _mapper.Map<VendaResponse>(vendaAtualizada);
+            return Ok(vendaResponse);
         }
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Update(Guid id, [FromBody] VendaRequest request)
+        catch (KeyNotFoundException)
         {
-            var venda = await _vendaRepository.GetByIdAsync(id);
-            if (venda == null)
-            {
-                return NotFound();
-            }
-            var input = _mapper.Map<Venda>(request);
-
-            venda.AtualizarVenda(
-                   input.NumeroVenda,
-                   input.NomeCliente,
-                   input.Filial,
-                   input.Itens,
-                   input.CpfCliente,
-                   input.TelefoneCliente,
-                   input.EmailCliente
-               );
-
-            await _vendaRepository.UpdateAsync(venda);
-
-            return NoContent();
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(Guid id)
-        {
-            var venda = await _vendaRepository.GetByIdAsync(id);
-            if (venda == null)
-            {
-                return NotFound();
-            }
-
-            await _vendaRepository.DeleteAsync(venda);
-            return NoContent();
+            return NotFound();
         }
     }
 
+    [HttpDelete("{numeroVenda}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Delete(int numeroVenda)
+    {
+        try
+        {
+            await _vendaService.DeleteVendaAsync(numeroVenda);
+            return NoContent();
+        }
+        catch (KeyNotFoundException)
+        {
+            return NotFound();
+        }
+    }
 }
