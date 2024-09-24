@@ -12,19 +12,25 @@
         public bool Cancelado { get; private set; }
         public List<ItemVenda> Itens { get; private set; }
 
+        private Venda()
+        {
+            Itens = new List<ItemVenda>();
+        }
+
         public Venda(int numeroVenda, string nomeCliente, string filial, List<ItemVenda> itens, string cpfCliente, string telefoneCliente, string emailCliente)
+            : this() 
         {
             NumeroVenda = numeroVenda;
             NomeCliente = nomeCliente;
             Filial = filial;
             Itens = itens ?? new List<ItemVenda>();
             DataVenda = DateTime.UtcNow;
-            Ativo = true;
             CpfCliente = cpfCliente;
             TelefoneCliente = telefoneCliente;
             EmailCliente = emailCliente;
             Cancelado = false;
         }
+
         public void AtualizarVenda(int numeroVenda, string nomeCliente, string filial, List<ItemVenda> itens, string cpfCliente, string telefoneCliente, string emailCliente, bool cancelado)
         {
             NumeroVenda = numeroVenda;

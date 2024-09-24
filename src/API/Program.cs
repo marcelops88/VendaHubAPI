@@ -2,6 +2,7 @@ using Data.Context;
 using Data.Repositories;
 using Domain.Interfaces;
 using Domain.Services;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Interfaces;
@@ -44,7 +45,10 @@ namespace API
         {
             builder.Services.AddDbContext<VendaDbContext>(options =>
                 options.UseNpgsql(builder.Configuration.GetConnectionString("PostgresConnection")));
-            builder.Services.AddScoped<IVendaDbContext>(provider => provider.GetService<VendaDbContext>());
+           
+
+
+            builder.Services.AddAutoMapper(typeof(Program));
 
             builder.Services.AddScoped<IVendaRepository, VendaRepository>();
             builder.Services.AddScoped<IVendaService, VendaService>();
