@@ -31,7 +31,7 @@
             Cancelado = false;
         }
 
-        public void AtualizarVenda( string nomeCliente, string filial, List<ItemVenda> itens, string cpfCliente, string telefoneCliente, string emailCliente, bool cancelado)
+        public void AtualizarVenda(string nomeCliente, string filial, List<ItemVenda> itens, string cpfCliente, string telefoneCliente, string emailCliente, bool cancelado)
         {
             NomeCliente = nomeCliente;
             Filial = filial;

@@ -9,7 +9,10 @@ namespace Domain.Entities
         public decimal ValorUnitario { get; private set; }
         public decimal Desconto { get; private set; }
         public bool Cancelado { get; private set; }
+        public ItemVenda()
+        {
 
+        }
         public ItemVenda(int produtoId, string nomeProduto, int quantidade, decimal valorUnitario, decimal desconto, bool cancelado)
         {
             ProdutoId = produtoId;
