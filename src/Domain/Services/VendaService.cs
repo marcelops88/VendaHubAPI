@@ -54,9 +54,21 @@ namespace Domain.Services
             return vendaEncontrada;
         }
 
-        public Task DeleteVendaAsync(int numeroVenda)
+        public async Task<Venda> DeleteVendaAsync(int numeroVenda)
         {
-            throw new NotImplementedException();
+            var venda = await GetByNumeroCompraAsync(numeroVenda);
+            if (venda == null)
+            {
+                throw new KeyNotFoundException("Venda não encontrada.");
+            }
+
+            venda.Cancelar();
+
+            await _vendaRepository.UpdateAsync(venda);
+
+            _logger.LogInformation("CompraCancelada: {@Venda}", venda);
+
+            return venda;
         }
 
         public Task<IEnumerable<Venda>> GetAllAsync()

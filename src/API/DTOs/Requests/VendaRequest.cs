@@ -3,7 +3,6 @@
     public class VendaRequest
     {
         public int NumeroVenda { get; set; }
-        public DateTime DataVenda { get; set; }
         public string NomeCliente { get; set; }
         public string CpfCliente { get; set; }
         public string TelefoneCliente { get; set; }

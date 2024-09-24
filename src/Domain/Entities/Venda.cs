@@ -1,6 +1,6 @@
 ﻿namespace Domain.Entities
 {
-    public class Venda: EntityBase
+    public class Venda : EntityBase
     {
         public int NumeroVenda { get; private set; }
         public DateTime DataVenda { get; private set; }
@@ -22,7 +22,7 @@
             Ativo = true;
             CpfCliente = cpfCliente;
             TelefoneCliente = telefoneCliente;
-            EmailCliente = emailCliente;  
+            EmailCliente = emailCliente;
             Cancelado = false;
         }
         public void AtualizarVenda(int numeroVenda, string nomeCliente, string filial, List<ItemVenda> itens, string cpfCliente, string telefoneCliente, string emailCliente, bool cancelado)
@@ -41,6 +41,10 @@
         public decimal ValorTotal()
         {
             return Itens.Sum(item => item.ValorTotal);
+        }
+        public void Cancelar()
+        {
+            Cancelado = true;
         }
     }
 

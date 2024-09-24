@@ -6,7 +6,7 @@ namespace Domain.Interfaces
     {
         Task<Venda> CreateVendaAsync(Venda venda);
         Task<Venda> UpdateVendaAsync(int numeroVenda, Venda venda);
-        Task DeleteVendaAsync(int numeroVenda);
+        Task<Venda> DeleteVendaAsync(int numeroVenda);
         Task<IEnumerable<Venda>> GetAllAsync();
         Task<Venda> GetByNumeroCompraAsync(int numeroVenda);
         decimal CalcularValorTotal(Venda venda);
