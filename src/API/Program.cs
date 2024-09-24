@@ -32,6 +32,7 @@ namespace API
                                      .AllowAnyMethod()
                                      .AllowAnyHeader());
             });
+            builder.Host.UseSerilog();
 
             var app = builder.Build();
 
