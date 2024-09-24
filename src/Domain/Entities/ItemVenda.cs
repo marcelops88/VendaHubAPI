@@ -19,12 +19,6 @@
             Cancelado = cancelado;
         }
 
-        public void Cancelar()
-        {
-            Cancelado = true;
-        }
-
-        public decimal ValorTotal => (ValorUnitario * Quantidade) - Desconto;
     }
 
 }
