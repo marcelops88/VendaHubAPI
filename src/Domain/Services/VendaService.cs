@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Domain.Entities;
+﻿using Domain.Entities;
 using Domain.Interfaces;
 using Microsoft.Extensions.Logging;
 
@@ -8,13 +7,11 @@ namespace Domain.Services
     public class VendaService : IVendaService
     {
         private readonly IVendaRepository _vendaRepository;
-        private readonly IMapper _mapper;
         private readonly ILogger<VendaService> _logger;
 
-        public VendaService(IVendaRepository vendaRepository, IMapper mapper, ILogger<VendaService> logger)
+        public VendaService(IVendaRepository vendaRepository, ILogger<VendaService> logger)
         {
             _vendaRepository = vendaRepository;
-            _mapper = mapper;
             _logger = logger;
         }
 
@@ -40,17 +37,15 @@ namespace Domain.Services
                 throw new KeyNotFoundException("Venda não encontrada.");
             }
 
-            var input = _mapper.Map<Venda>(venda);
-
             vendaEncontrada.AtualizarVenda(
-                input.NumeroVenda,
-                input.NomeCliente,
-                input.Filial,
-                input.Itens,
-                input.CpfCliente,
-                input.TelefoneCliente,
-                input.EmailCliente,
-                input.Cancelado
+                venda.NumeroVenda,
+                venda.NomeCliente,
+                venda.Filial,
+                venda.Itens,
+                venda.CpfCliente,
+                venda.TelefoneCliente,
+                venda.EmailCliente,
+                venda.Cancelado
             );
 
             await _vendaRepository.UpdateAsync(vendaEncontrada);

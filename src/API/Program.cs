@@ -1,6 +1,7 @@
 using Data.Context;
 using Data.Repositories;
 using Domain.Interfaces;
+using Domain.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Interfaces;
@@ -46,6 +47,7 @@ namespace API
             builder.Services.AddScoped<IVendaDbContext>(provider => provider.GetService<VendaDbContext>());
 
             builder.Services.AddScoped<IVendaRepository, VendaRepository>();
+            builder.Services.AddScoped<IVendaService, VendaService>();
         }
 
         private static IConfiguration BuildConfiguration()

@@ -1,4 +1,5 @@
-﻿namespace Domain.Entities
+﻿
+namespace Domain.Entities
 {
     public class ItemVenda : EntityBase
     {
@@ -19,6 +20,10 @@
             Cancelado = cancelado;
         }
 
+        public void Cancelar()
+        {
+            Cancelado = true;
+        }
     }
 
 }

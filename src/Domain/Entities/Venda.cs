@@ -55,6 +55,10 @@
         public void Cancelar()
         {
             Cancelado = true;
+            foreach (var item in Itens)
+            {
+                item.Cancelar();
+            }
         }
     }
 
