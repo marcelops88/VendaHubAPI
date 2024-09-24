@@ -38,7 +38,6 @@ namespace Domain.Services
             }
 
             vendaEncontrada.AtualizarVenda(
-                venda.NumeroVenda,
                 venda.NomeCliente,
                 venda.Filial,
                 venda.Itens,

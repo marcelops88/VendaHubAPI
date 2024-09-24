@@ -18,7 +18,7 @@
         }
 
         public Venda(int numeroVenda, string nomeCliente, string filial, List<ItemVenda> itens, string cpfCliente, string telefoneCliente, string emailCliente)
-            : this() 
+            : this()
         {
             NumeroVenda = numeroVenda;
             NomeCliente = nomeCliente;
@@ -31,9 +31,8 @@
             Cancelado = false;
         }
 
-        public void AtualizarVenda(int numeroVenda, string nomeCliente, string filial, List<ItemVenda> itens, string cpfCliente, string telefoneCliente, string emailCliente, bool cancelado)
+        public void AtualizarVenda( string nomeCliente, string filial, List<ItemVenda> itens, string cpfCliente, string telefoneCliente, string emailCliente, bool cancelado)
         {
-            NumeroVenda = numeroVenda;
             NomeCliente = nomeCliente;
             Filial = filial;
             Itens = itens ?? new List<ItemVenda>();
