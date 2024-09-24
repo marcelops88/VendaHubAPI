@@ -45,8 +45,6 @@ namespace API
             builder.Services.AddDbContext<VendaDbContext>(options =>
                 options.UseNpgsql(builder.Configuration.GetConnectionString("PostgresConnection")));
 
-
-
             builder.Services.AddAutoMapper(typeof(Program));
 
             builder.Services.AddScoped<IVendaRepository, VendaRepository>();
