@@ -38,9 +38,19 @@
             DataAtualizacao = DateTime.UtcNow;
         }
 
-        public decimal ValorTotal()
+        public decimal CalcularValorTotal()
         {
-            return Itens.Sum(item => item.ValorTotal);
+            decimal valorTotal = 0;
+
+            foreach (var item in Itens)
+            {
+                if (!item.Cancelado) 
+                {
+                    valorTotal += (item.Quantidade * item.ValorUnitario) - item.Desconto;
+                }
+            }
+
+            return valorTotal;
         }
         public void Cancelar()
         {

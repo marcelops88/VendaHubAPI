@@ -20,6 +20,12 @@ namespace Domain.Services
 
         public async Task<Venda> CreateVendaAsync(Venda venda)
         {
+            var vendaEncontrada = await GetByNumeroCompraAsync(venda.NumeroVenda);
+            if (vendaEncontrada != null)
+            {
+                throw new InvalidOperationException("Já existe uma venda criada!");
+            }
+
             var vendaCriada = await _vendaRepository.AddAsync(venda);
 
             _logger.LogInformation("CompraCriada: {@Venda}", vendaCriada);
@@ -81,14 +87,5 @@ namespace Domain.Services
             return _vendaRepository.GetByNumeroCompraAsync(numeroVenda);
         }
 
-        public decimal CalcularValorTotal(Venda venda)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void CancelarItemVenda(ItemVenda item)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

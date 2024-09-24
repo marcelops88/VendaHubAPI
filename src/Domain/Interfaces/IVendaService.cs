@@ -9,7 +9,5 @@ namespace Domain.Interfaces
         Task<Venda> DeleteVendaAsync(int numeroVenda);
         Task<IEnumerable<Venda>> GetAllAsync();
         Task<Venda> GetByNumeroCompraAsync(int numeroVenda);
-        decimal CalcularValorTotal(Venda venda);
-        void CancelarItemVenda(ItemVenda item);
     }
 }

@@ -25,7 +25,7 @@ public class VendaController : ControllerBase
         return Ok(vendas);
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{numeroVenda}")]
     public async Task<IActionResult> GetById(int numeroVenda)
     {
         var venda = await _vendaService.GetByNumeroCompraAsync(numeroVenda);
@@ -44,7 +44,7 @@ public class VendaController : ControllerBase
         return CreatedAtAction(nameof(GetById), new { numeroVenda = vendaCriada.NumeroVenda }, vendaCriada);
     }
 
-    [HttpPut("{id}")]
+    [HttpPut("{numeroVenda}")]
     public async Task<IActionResult> Update(int numeroVenda, [FromBody] VendaRequest request)
     {
         try
@@ -59,7 +59,7 @@ public class VendaController : ControllerBase
         }
     }
 
-    [HttpDelete("{id}")]
+    [HttpDelete("{numeroVenda}")]
     public async Task<IActionResult> Delete(int numeroVenda)
     {
         try
